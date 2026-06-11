@@ -12074,6 +12074,7 @@ Main = (function()
 		insertAbove(categoryOrder,"Character","Controls")
 		categoryOrder[#categoryOrder+1] = "Unscriptable"
 		categoryOrder[#categoryOrder+1] = "Attributes"
+		categoryOrder[#categoryOrder+1] = "Tags"
 
 		local categoryOrderMap = {}
 		for i = 1,#categoryOrder do
