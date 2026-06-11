@@ -3813,15 +3813,15 @@ local EmbeddedModules = {
 								-- Display property value
 								Properties.DisplayProp(prop,i)
 								if propObj then
-									if prop.IsAttribute then
-										propCons[#propCons+1] = getAttributeChangedSignal(propObj,prop.AttributeName):Connect(function()
-											Properties.DisplayProp(prop,i)
-										end)
-									else
-										propCons[#propCons+1] = getPropChangedSignal(propObj,propName):Connect(function()
-											Properties.DisplayProp(prop,i)
-										end)
-									end
+								    if prop.IsAttribute then
+								        propCons[#propCons+1] = getAttributeChangedSignal(propObj, prop.AttributeName):Connect(function()
+								            Properties.DisplayProp(prop, i)
+								        end)
+								    elseif not prop.IsTag then
+								        propCons[#propCons+1] = getPropChangedSignal(propObj, propName):Connect(function()
+								            Properties.DisplayProp(prop, i)
+								        end)
+								    end
 								end
 
 								-- Position and resize Input Box
