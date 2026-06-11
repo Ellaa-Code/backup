@@ -2730,6 +2730,28 @@ local EmbeddedModules = {
 						apiClass = apiClass.Superclass
 					end
 
+					local CollectionService = game:GetService("CollectionService")
+					local tags = CollectionService:GetTags(obj)
+					for _, tag in next, tags do
+					    if not foundAttrs["TAG_" .. tag] then
+					        local valType = {Name = "string", Category = "DataType"}
+					        local tagProp = {
+					            IsAttribute  = false,
+					            IsTag        = true,
+					            Name         = "TAG_" .. tag,
+					            DisplayName  = tag,
+					            AttributeName = tag,
+					            Class        = "Instance",
+					            ValueType    = valType,
+					            Category     = "Tags",
+					            Tags         = {ReadOnly = true},
+					        }
+					        props[propCount]  = tagProp
+					        propCount         = propCount + 1
+					        foundAttrs["TAG_" .. tag] = true
+					    end
+					end
+
 					if showingAttrs and attrCount < maxAttrs then
 						local attrs = getAttributes(obj)
 						for name,val in pairs(attrs) do
@@ -3516,6 +3538,11 @@ local EmbeddedModules = {
 				if not obj then return end
 
 				local propVal
+
+				if prop.IsTag then
+				    return game:GetService("CollectionService"):HasTag(obj, prop.AttributeName) and prop.AttributeName or nil
+				end
+		
 				if prop.IsAttribute then
 					propVal = getAttribute(obj,prop.AttributeName)
 					if propVal == nil then return nil end
